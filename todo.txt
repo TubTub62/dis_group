@@ -1,0 +1,16 @@
+
+
+Importeret bank example
+
+sql schema based on our ER diagram
+
+download a simple data for one game (CSV)
+make accompanying data if needed (name and steam id)
+
+program sql query statements, that displays what we want
+make it print to terminal
+
+make reg ex about sorting games based on certain title elements (like ending in 2 or all lower case)
+or make a regex about player count (6 or 7 figures playing the game).
+
+Work on making the website 
