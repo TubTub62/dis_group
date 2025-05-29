@@ -3,12 +3,14 @@ import random
 
 ip = "localhost"
 #ip = "192.168.1.90"
+password = "admin"
 
-def create_connection(ip=ip):
+
+def create_connection(ip=ip, password=password):
     conn = psycopg2.connect(database="steam_db",
                             host=ip,
                             user="postgres",
-                            password="admin",
+                            password=password,
                             port="5432")
     conn.autocommit = True
     return conn
