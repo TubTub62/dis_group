@@ -1,0 +1,4 @@
+simply type the following commands:
+
+chmod +x ./first_time_setup.sh
+source first_time_setup.sh
