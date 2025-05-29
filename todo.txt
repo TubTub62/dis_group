@@ -1,5 +1,3 @@
-
-
 Importeret bank example
 
 sql schema based on our ER diagram

@@ -1,0 +1,11 @@
+Test/make sure that our schema is correct/working (steam_prices/sql/schema.sql)
+
+Function that populate the various tables from our schema
+
+extend get_data.py to handle multiple data .csv files # get_data.py extracts the right data 
+new.py inserts data gotten from get_data.py into our database server # check how the bank example does it
+
+write html that showcases the new prices and dates, and old prices and dates #
+some routes.py that queries the database and spits out some html displaying the data
+
+make reg ex about sorting games based on certain title elements (like ending in 2 or all lower case) into some routing.py
