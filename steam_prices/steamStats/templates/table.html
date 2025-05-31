@@ -1,0 +1,78 @@
+<!doctype html>
+<html>
+    <head>
+      <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    {% if title %}
+        <title>Steam Prices Statistics - {{ title }}</title>
+    {% else %}
+        <title>Steam Prices Statistics</title>
+    {% endif %}
+    </head>
+    <body>
+        <div class="container mt-4">
+            <a href="{{ url_for('stats.base') }}">Home</a>
+            <h1 class="mb-4">Steam Prices Statistics</h1>
+            
+            <form method="get" action="{{ url_for('stats.table') }}" class="mb-4 ml-4">
+                <strong>Filter by:</strong><br>
+                <ul style="list-style-type: none; padding-left: 0;">
+                    <li>
+                        <label>
+                            <input type="checkbox" name="ends_with_2" {% if filters.ends_with_2 %}checked{% endif %}>
+                            Ends with "2"
+                        </label>
+                    </li>
+                    <li>
+                        <label>
+                            <input type="checkbox" name="no_price_update" {% if filters.no_price_update %}checked{% endif %}>
+                            No price updates
+                        </label>
+                    </li>
+                </ul>
+
+                <strong>Sort by:</strong><br>
+                <select name="sort_by" id="sort_by">
+                    <option value="">No sort</option>
+                    <option value="name" {% if request.args.get('sort_by') == 'name' %}selected{% endif %}>Name</option>
+                    <option value="release_price" {% if request.args.get('sort_by') == 'release_price' %}selected{% endif %}>Release Price</option>
+                    <option value="current_price" {% if request.args.get('sort_by') == 'current_price' %}selected{% endif %}>Current Price</option>
+                </select>
+
+                <br><br>
+                <button type="submit" class="btn btn-primary">Apply Options</button>
+            </form>
+
+            <table class="table table-bordered table-striped">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>SteamID</th>
+                        <th>Name</th>
+                        <th>Current Price €</th>
+                        <th>Release Price €</th>
+                        <th>Last Price Update</th>
+                        <th>Release Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for game in games %}
+                    <tr>
+                        <td>{{ game.steam_id }}</td>
+                        <td>{{ game.name }}</td>
+                        <td>{{ game.current_price }}</td>
+                        <td>{{ game.release_price }}</td>
+                        <td>{{ game.last_update }}</td>
+                        <td>{{ game.release_date }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            
+        </div>
+    </body>
+</html>

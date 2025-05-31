@@ -14,7 +14,23 @@
         <title>Steam Prices Statistics</title>
     {% endif %}
     </head>
-    <body>
-        <a>BODY</a>        
+    <body class="container mt-4">
+        <h1>Welcome!</h1>
+        <p>
+            This site shows price stats for selected Steam games. It was made as a group project as part of the 
+            Databases and Information Systems at Copenhagen University.
+        </p>
+        <p>Check out the game price table tab <a href="{{ url_for('stats.table') }}">(Click here!)</a> to play around with it.</p>
+
+        <h2>Credits</h2>
+        <p>
+            This site was created by
+        </p>
+        <ul>
+            <li>Asger Preus</li>
+            <li>Christian Kærgaard nielsen</li>
+            <li>Tobias Brunbjerg Alsgaard Andersen</li>
+            <li>Victor Badensø</li>
+        </ul>
     </body>
 </html>
