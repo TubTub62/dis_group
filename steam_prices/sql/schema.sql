@@ -14,8 +14,8 @@ CREATE TABLE steam_stats.update_release(
 );
 
 CREATE TABLE steam_stats.prices(
-    newest_price INT,
-    oldest_price INT,
+    newest_price REAL,
+    oldest_price REAL,
     PRIMARY KEY(newest_price, oldest_price)
 );
 
@@ -29,8 +29,8 @@ create TABLE steam_stats.dates(
 
 CREATE TABLE steam_stats.costs(
     steam_game_id bigserial,
-    newest_price INT,
-    oldest_price INT,
+    newest_price REAL,
+    oldest_price REAL,
     FOREIGN KEY(steam_game_id) REFERENCES steam_stats.game(id),
     FOREIGN KEY(newest_price, oldest_price) REFERENCES steam_stats.prices(newest_price, oldest_price)
 );

@@ -13,6 +13,16 @@ def create_connection(ip=ip, password=password):
     conn.autocommit = True
     return conn
 
+def execute_sql(conn , statement, fetch=False):
+    cursor = conn.cursor()
+    cursor.execute(statement)
+    if fetch:
+        q_res = cursor.fetchall()
+        cursor.close()
+        return q_res
+    else:
+        cursor.close()
+
 def create_id():
     return random.getrandbits(16)
 
@@ -25,30 +35,54 @@ def insert_game(conn, name, id):
     cursor.close()
 
 def insert_update_release(conn, nd, od):
-    exc_statement = f"INSERT INTO steam_stats.update_release(newest_date, oldest_date) VALUES({nd}, {od});"
+    exc_statement = f"INSERT INTO steam_stats.update_release(newest_date, oldest_date) VALUES('{nd}', '{od}');"
     cursor = conn.cursor()
     cursor.execute(exc_statement)
     cursor.close()
 
 def insert_prices(conn, np, op):
-    exc_statement = f"INSERT INTO steam_stats.prices(newest_price, oldest_price) VALUES({np}, {op});"
-    cursor = conn.cursor()
-    cursor.execute(exc_statement)
-    cursor.close()
+    q = query_prices(conn, np, op)
+    if q == []:
+        exc_statement = f"""INSERT INTO steam_stats.prices(newest_price, oldest_price)
+                            VALUES('{np}', '{op}');"""
+        execute_sql(conn, exc_statement)
+    
 
 def insert_dates(conn, id, nd, od):
-    exc_statement = f"INSERT INTO steam_stats.dates(steam_game_id, newest_date, oldest_date) VALUES({id}, {nd}, {od});"
+    exc_statement = f"INSERT INTO steam_stats.dates(steam_game_id, newest_date, oldest_date) VALUES({id}, '{nd}', '{od}');"
     cursor = conn.cursor()
     cursor.execute(exc_statement)
     cursor.close()
 
 def insert_costs(conn, id, np, op):
-    exc_statement = f"INSERT INTO steam_stats.costs(steam_game_id, newest_date, oldest_date) VALUES({id}, {np}, {op});"
+    exc_statement = f"INSERT INTO steam_stats.costs(steam_game_id, newest_price, oldest_price) VALUES({id}, {np}, {op});"
     cursor = conn.cursor()
     cursor.execute(exc_statement)
     cursor.close()
 
-# QUERYING DATA FROM DB
+# QUERY SINGLE
+
+def query_game(conn, sg_id):
+    statement = f"SELECT * FROM steam_stats.game WHERE id = '{sg_id}';"
+    return execute_sql(conn, statement, True)
+
+def query_update_release(conn, nd, od):
+    statement = f"SELECT * FROM steam_stats.update_release WHERE newest_date = '{nd}' AND oldest_date = '{od}';"
+    return execute_sql(conn, statement, True)
+
+def query_prices(conn, np, op):
+    statement = f"SELECT * FROM steam_stats.prices WHERE newest_price = '{np}' AND oldest_price = '{op}';"
+    return execute_sql(conn, statement, True)
+
+def query_dates(conn, sg_id):
+    statement = f"SELECT * FROM steam_stats.dates WHERE steam_game_id = '{sg_id}';"
+    return execute_sql(conn, statement, True)
+
+def query_costs(conn, sg_id):
+    statement = f"SELECT * FROM steam_stats.costs WHERE steam_game_id = '{sg_id}';"
+    return execute_sql(conn, statement, True)
+
+# QUERY ALL
 
 def query_game_all(conn):
     cursor = conn.cursor()

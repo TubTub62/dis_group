@@ -2,3 +2,5 @@ simply type the following commands:
 
 chmod +x ./first_time_setup.sh
 source first_time_setup.sh
+
+then upon being prompted enter the password for your postgres user

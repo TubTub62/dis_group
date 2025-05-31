@@ -1,10 +1,12 @@
 from flask import render_template, request
-from steamStats import app
+from steamStats import app, conn
 from flask import Blueprint
+
+from ..sql import *
 
 stats = Blueprint('stats', __name__)
 
-
+PYTHONUNBUFFERED=0
 
 @stats.route("/")
 def base():
@@ -12,49 +14,41 @@ def base():
 
 @stats.route("/table")
 def table():
-    # get steam games data here?
-    games = [ # temp data
-        {
-            'steam_id': 252490,
-            'name': 'Rust',
-            'current_price': 39.99,
-            'release_price': 18.99,
-            'last_update': 'Dec 14 2013',
-            'release_date': 'Sep 22 2021'
-        },
-        {
-            'steam_id': 730,
-            'name': 'Counter-Strike 2',
-            'current_price': 0,
-            'release_price': 7.34,
-            'last_update': 'Nov 1 2012',
-            'release_date': 'Dec 6 2018'
-        },
-        {
-            'steam_id': 570,
-            'name': 'Dota 2',
-            'current_price': 0,
-            'release_price': 0,
-            'last_update': 'Jul 9 2013',
-            'release_date': 'Jul 9 2013'
-        },
-        {
-            'steam_id': 2622380,
-            'name': 'ELDEN RING NIGHTREIGN',
-            'current_price': 39.99,
-            'release_price': 39.99,
-            'last_update': 'Feb 12 2025',
-            'release_date': 'Feb 12 2025'
-        },
-        {
-            'steam_id': 553850,
-            'name': 'HELLDIVERS™ 2',
-            'current_price': 39.99,
-            'release_price': 39.99,
-            'last_update': 'Sep 22 2023',
-            'release_date': 'Sep 22 2023'
+    
+    ### Following lines query and gather all game data from db
+    all_games_query = query_game_all(conn)
+    
+    games = []
+    for game in all_games_query:
+        
+        game_name = game[0]
+        game_id = game[1]
+
+        cost_q = query_costs(conn, game_id)[0]
+        dates_q = query_dates(conn, game_id)[0]
+
+        print(cost_q)
+        
+        prices_pkeys = [cost_q[1], cost_q[2]]
+        update_release_pkeys = [dates_q[1], dates_q[2]]
+
+        prices_q = query_prices(conn, prices_pkeys[0], prices_pkeys[1])[0]
+        update_release_q = query_update_release(conn, update_release_pkeys[0], update_release_pkeys[1])[0]
+
+        print(prices_q)
+
+        game_dict = {
+            'steam_id': game_id,
+            'name': game_name,
+            'current_price': prices_q[0],
+            'release_price': prices_q[1],
+            'last_update': update_release_q[0],
+            'release_date': update_release_q[1]
         }
-    ]
+
+        games.append(game_dict)
+        
+
     ends_with_2 = 'ends_with_2' in request.args
     no_price_update = 'no_price_update' in request.args
 
@@ -83,10 +77,5 @@ def table():
 
     return render_template("table.html", games=filtered_games, filters={'ends_with_2': ends_with_2,'no_price_update': no_price_update})
 
-
-
-
-@app.errorhandler(404)
-def not_found():
-    print("WTF")
-    return "Page not found", 404
+if __name__ == "__main__":
+    table()
