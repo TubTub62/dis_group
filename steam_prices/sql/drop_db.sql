@@ -1,0 +1,1 @@
+DROP DATABASE steam_db;

@@ -1,6 +1,19 @@
+Prerequisites:
+
+The guide pressumes a the user is using a bash based terminal and a unix like os. For PostgresSQL it is assumed that the user has a profile named postgres with access method 'trust'.
+
+Profile in pg_hba.conf:
+local   all             postgres                                trust
+
+How to run:
+
 simply type the following commands:
 
 chmod +x ./first_time_setup.sh
 source first_time_setup.sh
 
-then upon being prompted enter the password for your postgres user
+Then upon being prompted enter the password for your postgres user
+
+Browsing:
+
+Upon opening localhost on port 5000, with a browser, you are taking to the hompage. Click on "click here" to enter the steam game statistics page. Here you can see a collection of steam games and information about them. There is filtering options, which use regular expressions, to filter certain games by chosen condition.

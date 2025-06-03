@@ -29,7 +29,7 @@ def create_id():
 # INSERTING DATA TO DB
 
 def insert_game(conn, name, id):
-    exc_statement = f"INSERT INTO steam_stats.game(name, id) VALUES('{name}', {id});"
+    exc_statement = "INSERT INTO steam_stats.game(name, id) VALUES($${}$$, {});".format(name, id)
     cursor = conn.cursor()
     cursor.execute(exc_statement)
     cursor.close()
