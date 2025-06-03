@@ -1,8 +1,8 @@
 from flask import render_template, request
-from steamStats import app, conn
 from flask import Blueprint
-
+from steamStats import app, conn
 from ..sql import *
+import re
 
 stats = Blueprint('stats', __name__)
 
@@ -51,18 +51,22 @@ def table():
 
     ends_with_2 = 'ends_with_2' in request.args
     no_price_update = 'no_price_update' in request.args
+    all_caps = 'all_caps' in request.args
 
     
     filtered_games = []
     for game in games:
         match = True
 
-        if ends_with_2 and not game['name'].strip().endswith('2'): #this filtering should be done by regex not this
+        if ends_with_2 and not re.search(r"2$", game["name"]):
             match = False
 
         if no_price_update and (game['last_update'] != game['release_date']):
             match = False
         
+        if all_caps and not re.match(r"^[A-Z\s]+$", game["name"]):
+            match = False
+
         if match:
             filtered_games.append(game)
 
@@ -75,7 +79,7 @@ def table():
     elif sort_by == 'current_price':
         filtered_games.sort(key=lambda x: x['current_price'])
 
-    return render_template("table.html", games=filtered_games, filters={'ends_with_2': ends_with_2,'no_price_update': no_price_update})
+    return render_template("table.html", games=filtered_games, filters={'ends_with_2': ends_with_2,'no_price_update': no_price_update,'all_caps': all_caps})
 
 if __name__ == "__main__":
     table()
