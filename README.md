@@ -8,7 +8,7 @@ This project uses data from https://steamdb.info/ to display stats about games. 
 
 ##  Prerequisites
 
-Both types of os requires a Python and PostgreSQL installation
+Both types of os requires a Python and PostgreSQL installation. Additionally a profile named postgres is required
 
 ### Linux
 
@@ -35,6 +35,8 @@ Simply type the following commands:
 
 chmod +x ./first_time_setup_windows.sh
 source first_time_setup_windows.sh
+
+### Setup
 
 Doing the setup there will be many password prompts. Every single time enter your password for your user named 'postgres'.
 
