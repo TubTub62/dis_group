@@ -23,10 +23,18 @@ It is required to use a bash terminal, as all the scripting requires it.
 
 ## Compile / How To Run
 
+### Linux
 Simply type the following commands:
 
 chmod +x ./first_time_setup.sh
 source first_time_setup.sh
+
+### Windows
+
+Simply type the following commands:
+
+chmod +x ./first_time_setup_windows.sh
+source first_time_setup_windows.sh
 
 Doing the setup there will be many password prompts. Every single time enter your password for your user named 'postgres'.
 
