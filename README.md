@@ -2,6 +2,24 @@
 
 This project uses data from https://steamdb.info/ to display stats about games. In particular showing the prices and dates from release and now.
 
+## Regex
+
+The use of regular expression for game filtration can be found in the following file:
+
+dis_group/steam_prices/steamStats/Statistics/routes.py
+
+## SQL
+
+Many sql commands as insert, delete and select are used. The functions which streamlined the process can be found here:
+
+dis_group/steam_prices/steamStats/sql.py
+
+The actual usage can be seen here:
+
+dis_group/steam_prices/steamStats/Statistics/routes.py
+
+Additionally some helping scripts also use the functionality.
+
 ## E/R Diagram
 
 ![E/R Diagram](schema.png)
