@@ -27,6 +27,7 @@ It is required to use a bash terminal, as all the scripting requires it.
 Simply type the following commands:
 
 chmod +x ./first_time_setup.sh
+
 source first_time_setup.sh
 
 ### Windows
@@ -34,6 +35,7 @@ source first_time_setup.sh
 Simply type the following commands:
 
 chmod +x ./first_time_setup_windows.sh
+
 source first_time_setup_windows.sh
 
 ### Setup
